@@ -74,6 +74,7 @@ for i in range(12*24*5):
 
     # utime.sleep(10 - utime.ticks_diff(tm_a - tm_b))
 
+    gc.collect()
     utime.sleep(300)
 
 # execfile("main.py")
