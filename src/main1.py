@@ -2,6 +2,7 @@ import utime
 import new_module
 import sys
 from machine import I2C, Pin, RTC
+import gc
 
 # tm = utime.localtime(utime.time())
 # minite_jst = int(tm[4])
@@ -12,6 +13,9 @@ from machine import I2C, Pin, RTC
 #     utime.sleep(1) 
     
 
+#ガベージ
+gc.enable
+mem = gc.mem_alloc()+gc.mem_free()
 
 # execfile("repetition.py")
 
@@ -26,7 +30,9 @@ for i in range(12*24*5):
 
     print(new_module.get_jst())
 
-    log = new_module.get_jst()+","+str(new_module.SencerAd(21, 22))+","+lang_version+","+plat
+    mem_pa = int(gc.mem_alloc()/mem*100)
+
+    log = new_module.get_jst()+","+str(new_module.SencerAd(21, 22))+","+lang_version+","+plat+", memory usage"+ str (mem_pa)+"%"
     print(log)
 
     with open("ab.log", mode='a') as f:
