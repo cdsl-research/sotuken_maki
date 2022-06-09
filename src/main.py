@@ -4,23 +4,12 @@ import sys
 from machine import I2C, Pin, RTC
 import gc
 
-# tm = utime.localtime(utime.time())
-# minite_jst = int(tm[4])
-# while minite_jst % 5 != 0:
-#     print(str(minite_jst))
-#     tm = utime.localtime(utime.time())
-#     minite_jst = int(tm[4])
-#     utime.sleep(1) 
-    
+url = 'http://ono-http-setver.a910.tak-cslab.org:8888'
+header = {
+            'Content-Type' : 'application/json'
+}
 
-#ガベージ
-gc.enable
-mem = gc.mem_alloc()+gc.mem_free()
-
-# execfile("repetition.py")
-
-# 1days = 300 * 12 * 24
-for i in range(12*24*5):
+def main():
     # tm_b = utime.localtime(utime.time()) # UTC now
     # print(tm_b)
     impl=sys.implementation
@@ -37,11 +26,6 @@ for i in range(12*24*5):
 
     with open("ab.log", mode='a') as f:
         f.write(log + "\n")
-
-    url = 'http://ono-http-setver.a910.tak-cslab.org:8888'
-    header = {
-                'Content-Type' : 'application/json'
-    }
 
     new_module.send_server(url + '/event_log', header, new_module.event_log(new_module.get_jst(), "ログを生成しました"))
 
@@ -76,5 +60,29 @@ for i in range(12*24*5):
 
     utime.sleep(300)
 
+
+    
+
+
+
+# execfile("repetition.py")
+
+# 1days = 300 * 12 * 24
+# for i in range(12*24*5):
+if __name__ == '__main__':
+    tm = utime.localtime(utime.time())
+    minite_jst = int(tm[4])
+    while minite_jst % 5 != 0:
+        print(str(minite_jst))
+        tm = utime.localtime(utime.time())
+        minite_jst = int(tm[4])
+        utime.sleep(1) 
+    #ガベージ
+    gc.enable
+    mem = gc.mem_alloc()+gc.mem_free()
+    while(True):
+        main()
+
 # execfile("main.py")
 
+    new_module.send_server(url + '/event_log', header, new_module.event_log(new_module.get_jst(), "[WARING] ループを抜けました"))

@@ -1,5 +1,5 @@
-# import upip
-# upip.install("urequests")
+import upip
+upip.install("urequests")
 import urequests
 import ujson
 from machine import I2C, Pin, RTC
