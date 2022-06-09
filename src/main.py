@@ -58,6 +58,7 @@ def main():
 
     # utime.sleep(10 - utime.ticks_diff(tm_a - tm_b))
 
+    gc.collect()
     utime.sleep(300)
 
 
