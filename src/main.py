@@ -3,8 +3,11 @@ import new_module
 import sys
 from machine import I2C, Pin, RTC
 import gc
+import os
 
 url = 'http://ono-http-setver.a910.tak-cslab.org:8888'
+# url = '192.168.100.31:8888'
+
 header = {
             'Content-Type' : 'application/json'
 }
@@ -20,6 +23,7 @@ def main():
     print(new_module.get_jst())
 
     mem_pa = int(gc.mem_alloc()/mem*100)
+
 
     log = new_module.get_jst()+","+str(new_module.SencerAd(21, 22))+","+lang_version+","+plat+", memory usage"+ str (mem_pa)+"%"
     print(log)
@@ -77,10 +81,20 @@ if __name__ == '__main__':
         print(str(minite_jst))
         tm = utime.localtime(utime.time())
         minite_jst = int(tm[4])
-        utime.sleep(1) 
+        utime.sleep(1)
     #ガベージ
     gc.enable
     mem = gc.mem_alloc()+gc.mem_free()
+
+
+    for fname in os.listdir():
+        if fname == "error.log":
+            with open("error.log", mode='r') as f:
+                error_data = {
+                    "message":str(f.read())
+                }
+            new_module.send_server(url + '/error_log', header, error_data)
+            
     while(True):
         main()
 

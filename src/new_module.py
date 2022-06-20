@@ -1,3 +1,4 @@
+from ast import main
 import upip
 upip.install("urequests")
 import urequests
@@ -56,6 +57,9 @@ def send_server(url, header, data):
         print(e.args)
         with open("error.log", mode='a') as f:
             f.write(get_jst() + "," + str(e.args) + "\n")
+        utime.sleep(60)
+        res.close()
+        main()
     res.close()
 
 def event_log(date, message):
