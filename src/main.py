@@ -24,8 +24,10 @@ def main():
 
     mem_pa = int(gc.mem_alloc()/mem*100)
 
+    stinfo = os.statvfs('/')
+    # st_pa = (int(full_block) - int(free_block) ) / int(full_block)
 
-    log = new_module.get_jst()+","+str(new_module.SencerAd(21, 22))+","+lang_version+","+plat+", memory usage"+ str (mem_pa)+"%"
+    log = new_module.get_jst()+","+str(new_module.SencerAd(21, 22))+","+lang_version+","+plat+", memory usage"+ str (mem_pa)+"%"+", storage usage"+ str(stinfo)
     print(log)
 
     with open("ab.log", mode='a') as f:

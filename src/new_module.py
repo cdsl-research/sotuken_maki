@@ -6,6 +6,7 @@ import ujson
 from machine import I2C, Pin, RTC
 import utime
 import ntptime
+import boot
 
 import gc
 gc.enable()
@@ -59,7 +60,11 @@ def send_server(url, header, data):
             f.write(get_jst() + "," + str(e.args) + "\n")
         utime.sleep(60)
         res.close()
-        main()
+        try:
+            boot.connect_wifi("CDSL-A910-11n","11n-mq$xbgb4va",timeout=10)
+        except Exception as e2:
+            with open("error.log", mode='a') as f2:
+                f2.write(get_jst() + "," + str(e2.args) + "\n")
     res.close()
 
 def event_log(date, message):
